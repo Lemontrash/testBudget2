@@ -1,7 +1,8 @@
 <template>
   <main>
     <main-header />
-    <router-view></router-view>
+    <router-view v-if="currentUser"></router-view>
+    <div class="notice" v-if="currentUser == false">You should be logged in to see this page!</div>
   </main>
 </template>
 
@@ -11,12 +12,23 @@ import MainHeader from './components/parts/MainHeader.vue';
 
 export default {
   data() {
-    return {}
+    return {
+      currentUser : false,
+    }
   },
   components : {
     Home, MainHeader,
   },
-  
+  created() {
+    axios
+      .post('/getCurrentUser')
+        .then(res => {
+          if(res.data != false) {
+            this.currentUser = true;
+          }
+        });
+  }
+
 
 
 }

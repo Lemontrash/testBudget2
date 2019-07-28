@@ -39,13 +39,22 @@ export default {
   },
   methods : {
     deleteActivity(e,id) {
-      console.log(id);
+      axios
+        .post('/deleteActivity',{ activityId : id})
+          .then(res => {
+              this.$root.$emit('reRenderDashboard');
+          });
     },
     getAllActivities() {
       axios
-        .post('/api/getAllActivities')
-          .then(res=>{
-            this.activities = res.data;
+        .post('/getAllActivities')
+          .then(res => {
+            if(res.data.success != false) {
+              this.activities = res.data;
+            }else {
+              this.activities = [];
+            }
+
           });
     }
   }

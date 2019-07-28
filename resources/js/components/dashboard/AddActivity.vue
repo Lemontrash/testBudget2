@@ -33,7 +33,7 @@ export default {
     // let user_token = this.$cookies.get('token');
     // if(user_token) {
       // console.log(user_token);
-      axios.post('/api/getAllCategories')
+      axios.post('/getAllCategories')
         .then(res=>{
           // console.log(res);
           this.categories = res.data.value;
@@ -55,13 +55,13 @@ export default {
     },
     saveActivity() {
       if(this.activityName != null && this.activityAmount != null && this.selectedCategoryId != null) {
-        axios.post('/api/addActivity',{
+        axios.post('/addActivity',{
           categoryId : this.selectedCategoryId,
           money : this.activityAmount,
           currency : 'USD',
           name : this.activityName
         })
-          .then(res=>{
+          .then(res => {
             this.$root.$emit('reRenderDashboard');
           })
       }

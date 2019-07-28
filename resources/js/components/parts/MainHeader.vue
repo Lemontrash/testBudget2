@@ -15,8 +15,8 @@
       </nav>
 
       <div class="user-actions">
-        <router-link class="btn inverted" v-if="currentUser == false" :to="'/my-account/registration'">SignUp</router-link>
-        <button class="btn" v-if="currentUser == false" @click="openLogin">Login</button>
+        <a class="btn inverted" v-if="currentUser == false" href="/register">SignUp</a>
+        <a class="btn" v-if="currentUser == false" href="/login">Login</a>
 
         <router-link class="btn inverted" v-if="currentUser == true" :to="'/my-account'">My Account</router-link>
         <button class="btn" v-if="currentUser == true" @click="logout">Logout</button>
@@ -41,7 +41,15 @@ export default {
     }
   },
   created() {
-    // console.log(this.$root.getUser());
+    // console.log(this.$root.getCurrentUser());
+      axios
+        .post('/getCurrentUser')
+          .then(res => {
+            console.log(res.data);
+            if(res.data != false) {
+              this.currentUser = true;
+            }
+          });
   },
   methods : {
     openMobileMenu(e) {
@@ -49,12 +57,7 @@ export default {
     },
     logout() {
       axios
-        .get('api/auth/logout',{
-          headers : {
-            Accept : 'application/json',
-            Authorization : 'Bearer ' + this.$cookies.get('token'),
-          }
-        })
+        .get('/logout')
           .then(res => {
             if(res.data.success) {
               this.$cookies.remove('token');

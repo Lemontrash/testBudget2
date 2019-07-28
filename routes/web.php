@@ -10,17 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// use App\Htpp\Middleware\LoggedIn;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/my-account', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::post('/getCurrentUser', 'UserController@getCurrentUser')->middleware('loggedIn');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->middleware('loggedIn');
 
 Route::post('/getAllCategories', 'CategoryController@getAllCategories')->middleware('loggedIn');
 

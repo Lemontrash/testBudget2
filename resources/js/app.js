@@ -39,12 +39,7 @@ Vue.filter('formatDate', function (value) {
 //mixins
 require('./mixins.js');
 
-const HTTP = axios.create({
-  baseURL: `http://baseURL.com/api`,
-  headers: {
-    Authorization: 'Bearer {token}'
-  }
-})
+
 import App from './App.vue';
 
 Vue.use(VueCookies)
@@ -55,9 +50,6 @@ window.app = new Vue({
  router : router,
  render: h => h(App),
  methods : {
-   getUser() {
-     // TODO: Get user
-     //axios.get('/api/user',).then(res=>{return res.data;})
-   }
+   
  }
 }).$mount('#app');

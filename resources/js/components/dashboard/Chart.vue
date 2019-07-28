@@ -51,11 +51,11 @@ export default {
   methods : {
     getChartData() {
       axios
-        .post('/api/getSummaryForLastMonth')
+        .post('/getSummaryForLastMonth')
           .then(res => {
             this.chartOptions.labels = Object.keys(res.data);
             this.series = Object.values(res.data);
-            console.log(this.chartOptions.labels);
+            // console.log(this.chartOptions.labels);
           });
     },
   }

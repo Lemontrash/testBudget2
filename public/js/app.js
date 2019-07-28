@@ -30780,15 +30780,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      currentUser: false
+    };
   },
   components: {
     Home: _components_Home_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     MainHeader: _components_parts_MainHeader_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.post('/getCurrentUser').then(function (res) {
+      if (res.data != false) {
+        _this.currentUser = true;
+      }
+    });
   }
 });
 
@@ -31075,7 +31087,7 @@ __webpack_require__.r(__webpack_exports__);
     // let user_token = this.$cookies.get('token');
     // if(user_token) {
     // console.log(user_token);
-    axios.post('/api/getAllCategories').then(function (res) {
+    axios.post('/getAllCategories').then(function (res) {
       // console.log(res);
       _this.categories = res.data.value;
     }); // }
@@ -31094,7 +31106,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.activityName != null && this.activityAmount != null && this.selectedCategoryId != null) {
-        axios.post('/api/addActivity', {
+        axios.post('/addActivity', {
           categoryId: this.selectedCategoryId,
           money: this.activityAmount,
           currency: 'USD',
@@ -31170,10 +31182,9 @@ __webpack_require__.r(__webpack_exports__);
     getChartData: function getChartData() {
       var _this2 = this;
 
-      axios.post('/api/getSummaryForLastMonth').then(function (res) {
+      axios.post('/getSummaryForLastMonth').then(function (res) {
         _this2.chartOptions.labels = Object.keys(res.data);
-        _this2.series = Object.values(res.data);
-        console.log(_this2.chartOptions.labels);
+        _this2.series = Object.values(res.data); // console.log(this.chartOptions.labels);
       });
     }
   }
@@ -31232,13 +31243,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteActivity: function deleteActivity(e, id) {
-      console.log(id);
-    },
-    getAllActivities: function getAllActivities() {
       var _this2 = this;
 
-      axios.post('/api/getAllActivities').then(function (res) {
-        _this2.activities = res.data;
+      axios.post('/deleteActivity', {
+        activityId: id
+      }).then(function (res) {
+        _this2.$root.$emit('reRenderDashboard');
+      });
+    },
+    getAllActivities: function getAllActivities() {
+      var _this3 = this;
+
+      axios.post('/getAllActivities').then(function (res) {
+        if (res.data.success != false) {
+          _this3.activities = res.data;
+        } else {
+          _this3.activities = [];
+        }
       });
     }
   }
@@ -31410,23 +31431,28 @@ __webpack_require__.r(__webpack_exports__);
       openLoginModal: false
     };
   },
-  created: function created() {// console.log(this.$root.getUser());
+  created: function created() {
+    var _this = this;
+
+    // console.log(this.$root.getCurrentUser());
+    axios.post('/getCurrentUser').then(function (res) {
+      console.log(res.data);
+
+      if (res.data != false) {
+        _this.currentUser = true;
+      }
+    });
   },
   methods: {
     openMobileMenu: function openMobileMenu(e) {
       document.querySelector('.header').classList.toggle('is_active');
     },
     logout: function logout() {
-      var _this = this;
+      var _this2 = this;
 
-      axios.get('api/auth/logout', {
-        headers: {
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + this.$cookies.get('token')
-        }
-      }).then(function (res) {
+      axios.get('/logout').then(function (res) {
         if (res.data.success) {
-          _this.$cookies.remove('token');
+          _this2.$cookies.remove('token');
 
           document.location.reload(true);
         }
@@ -86636,7 +86662,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", [_c("main-header"), _vm._v(" "), _c("router-view")], 1)
+  return _c(
+    "main",
+    [
+      _c("main-header"),
+      _vm._v(" "),
+      _vm.currentUser ? _c("router-view") : _vm._e(),
+      _vm._v(" "),
+      _vm.currentUser == false
+        ? _c("div", { staticClass: "notice" }, [
+            _vm._v("You should be logged in to see this page!")
+          ])
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -87394,21 +87434,19 @@ var render = function() {
             [
               _vm.currentUser == false
                 ? _c(
-                    "router-link",
+                    "a",
                     {
                       staticClass: "btn inverted",
-                      attrs: { to: "/my-account/registration" }
+                      attrs: { href: "/register" }
                     },
                     [_vm._v("SignUp")]
                   )
                 : _vm._e(),
               _vm._v(" "),
               _vm.currentUser == false
-                ? _c(
-                    "button",
-                    { staticClass: "btn", on: { click: _vm.openLogin } },
-                    [_vm._v("Login")]
-                  )
+                ? _c("a", { staticClass: "btn", attrs: { href: "/login" } }, [
+                    _vm._v("Login")
+                  ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.currentUser == true
@@ -103535,12 +103573,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('formatDate', function (value)
 
 __webpack_require__(/*! ./mixins.js */ "./resources/js/mixins.js");
 
-var HTTP = axios.create({
-  baseURL: "http://baseURL.com/api",
-  headers: {
-    Authorization: 'Bearer {token}'
-  }
-});
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_cookies__WEBPACK_IMPORTED_MODULE_4___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_apexcharts__WEBPACK_IMPORTED_MODULE_3___default.a);
@@ -103550,11 +103582,7 @@ window.app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   render: function render(h) {
     return h(_App_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
   },
-  methods: {
-    getUser: function getUser() {// TODO: Get user
-      //axios.get('/api/user',).then(res=>{return res.data;})
-    }
-  }
+  methods: {}
 }).$mount('#app');
 
 /***/ }),
