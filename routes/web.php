@@ -21,3 +21,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/my-account', 'HomeController@index')->name('home');
+
+Route::post('/getAllCategories', 'CategoryController@getAllCategories')->middleware('loggedIn');
+
+Route::post('/getAllActivities', 'ActivityController@getAllActivities')->middleware('loggedIn');
+Route::post('/addActivity', 'ActivityController@addActivity')->middleware('loggedIn');
+
+Route::post('/getSummaryForLastMonth', 'SummaryController@getSummaryForLastMonth')->middleware('loggedIn');
+Route::post('/getSummaryForLastYear', 'SummaryController@addActivity')->middleware('loggedIn');
+Route::post('/getSummaryForSetAmountOfDays', 'SummaryController@getSummaryForSetAmountOfDays')->middleware('loggedIn');

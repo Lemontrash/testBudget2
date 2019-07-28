@@ -14,7 +14,7 @@ class SummaryController extends Controller
     public function getSummaryForLastMonth(){
         $monthlyCosts = CategoryActivity::where(
             'created_at', '>=', Carbon::now()->subMonth()->toDateTimeString()
-        )->where('userId', 2)->get();
+        )->where('userId', Auth::id())->get();
         $data = $this->countSummary($monthlyCosts);
         // dd($monthlyCosts);
         // dd($data);
@@ -31,7 +31,7 @@ class SummaryController extends Controller
     public function getSummaryForSetAmountOfDays(Request $request){
         $customCosts  = CategoryActivity::where(
             'created_at', '>=', Carbon::now()->subDays($request->get('days'))->toDateTimeString()
-        )->where('userId', 2)->get();
+        )->where('userId', Auth::id())->get();
         $this->countSummary($customCosts);
         // dd($customCosts);
     }

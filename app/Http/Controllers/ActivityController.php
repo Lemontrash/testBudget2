@@ -39,7 +39,7 @@ class ActivityController extends Controller
             'activity_name' => $name,
             'amount_of_money' => $money,
             'currency' => $currency,
-            'userId' => 2
+            'userId' => Auth::id(),
         ]);
         return response()->json(['success' => true]);
     }
