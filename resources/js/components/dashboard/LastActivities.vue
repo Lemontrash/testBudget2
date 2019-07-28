@@ -80,7 +80,7 @@ export default {
       span {
         flex-basis:26.5%;
         padding-right:8px;
-        &.date {
+        &.amount {
           flex-basis: 10%;
         }
         &.actions {

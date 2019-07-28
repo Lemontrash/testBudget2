@@ -15,20 +15,20 @@ import VueApexCharts from 'vue-apexcharts'
 import VueCookies from 'vue-cookies'
 import moment from 'moment'
 
-// Vue.component(
-//     'passport-clients',
-//     require('./components/passport/Clients.vue').default
-// );
-//
-// Vue.component(
-//     'passport-authorized-clients',
-//     require('./components/passport/AuthorizedClients.vue').default
-// );
-//
-// Vue.component(
-//     'passport-personal-access-tokens',
-//     require('./components/passport/PersonalAccessTokens.vue').default
-// );
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue').default
+);
 
 moment.locale('en');
 Vue.filter('formatDate', function (value) {
@@ -38,8 +38,13 @@ Vue.filter('formatDate', function (value) {
 })
 //mixins
 require('./mixins.js');
-// TODO: import VueModal from 'vue-js-modal'
 
+const HTTP = axios.create({
+  baseURL: `http://baseURL.com/api`,
+  headers: {
+    Authorization: 'Bearer {token}'
+  }
+})
 import App from './App.vue';
 
 Vue.use(VueCookies)
@@ -49,4 +54,10 @@ Vue.component('apexchart', VueApexCharts)
 window.app = new Vue({
  router : router,
  render: h => h(App),
+ methods : {
+   getUser() {
+     // TODO: Get user
+     //axios.get('/api/user',).then(res=>{return res.data;})
+   }
+ }
 }).$mount('#app');

@@ -2,7 +2,8 @@
   <div class="chart">
     <h2>Last month chart</h2>
     <div>
-      <apexchart type=pie width=380 :options="chartOptions" :series="series" />
+      <apexchart v-if="chartOptions.labels.length > 1" type="pie" width=380 :options="chartOptions" :series="series" />
+      <div class="notice" v-show="chartOptions.labels.length <= 1">Add more activities to see the chart!</div>
     </div>
   </div>
 </template>
@@ -14,7 +15,7 @@ export default {
     return {
       series: [],
       chartOptions: {
-        labels: [],
+        labels: Array,
         responsive: [{
           breakpoint: 480,
           options: {
@@ -43,7 +44,7 @@ export default {
   created() {
     this.getChartData();
     this.$root.$on('reRenderDashboard',() => {
-      this.getChartData();
+        this.getChartData();
     });
 
   },
@@ -53,9 +54,10 @@ export default {
         .post('/api/getSummaryForLastMonth')
           .then(res => {
             this.chartOptions.labels = Object.keys(res.data);
-            this.series  = Object.values(res.data);
+            this.series = Object.values(res.data);
+            console.log(this.chartOptions.labels);
           });
-    }
+    },
   }
 }
 </script>

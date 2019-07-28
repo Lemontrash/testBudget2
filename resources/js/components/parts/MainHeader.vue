@@ -3,7 +3,7 @@
     <div class="header-content">
 
       <router-link :to="'/'" class="logo">
-        <img src="" alt="">
+        <span>LOGO</span>
       </router-link>
 
       <nav class="main-menu">
@@ -15,7 +15,7 @@
       </nav>
 
       <div class="user-actions">
-        <router-link class="btn inverted" v-if="currentUser == false" :to="'/registration'">SignUp</router-link>
+        <router-link class="btn inverted" v-if="currentUser == false" :to="'/my-account/registration'">SignUp</router-link>
         <button class="btn" v-if="currentUser == false" @click="openLogin">Login</button>
 
         <router-link class="btn inverted" v-if="currentUser == true" :to="'/my-account'">My Account</router-link>
@@ -41,26 +41,7 @@ export default {
     }
   },
   created() {
-    // let user_token = this.$cookies.get('token');
-    // if(this.$cookies.get('token')) {
-      axios
-        .get('/api/user', {
-          // headers : {
-          //   Accept : 'application/json',
-          //   Authorization : 'Bearer '+this.$cookies.get('token'),
-          // }
-        })
-          .then(res=>{
-            if(res.data.id) {
-              // console.log(res);
-              this.currentUser = true;
-            }
-          })
-          .catch(err=>{
-            console.log(err);
-          });
-    // }
-    // this.getAllCategories();
+    // console.log(this.$root.getUser());
   },
   methods : {
     openMobileMenu(e) {
@@ -75,7 +56,6 @@ export default {
           }
         })
           .then(res => {
-            // console.log(res);
             if(res.data.success) {
               this.$cookies.remove('token');
               document.location.reload(true);
@@ -132,7 +112,12 @@ export default {
       width:160px;
       height:80px;
       flex-basis:20%;
-      background-color: cornflowerblue;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-size: 40px;
       img {
         width:100%;
         height:100%;

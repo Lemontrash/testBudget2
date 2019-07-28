@@ -10759,3 +10759,7 @@ h2 {
   margin-bottom: 12px;
 }
 
+.button_wrap .btn {
+  display: inline-block;
+}
+
