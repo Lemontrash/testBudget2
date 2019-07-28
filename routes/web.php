@@ -26,6 +26,7 @@ Route::post('/getAllCategories', 'CategoryController@getAllCategories')->middlew
 
 Route::post('/getAllActivities', 'ActivityController@getAllActivities')->middleware('loggedIn');
 Route::post('/addActivity', 'ActivityController@addActivity')->middleware('loggedIn');
+Route::post('/deleteActivity', 'ActivityController@deleteActivity')->middleware('loggedIn');
 
 Route::post('/getSummaryForLastMonth', 'SummaryController@getSummaryForLastMonth')->middleware('loggedIn');
 Route::post('/getSummaryForLastYear', 'SummaryController@addActivity')->middleware('loggedIn');

@@ -43,4 +43,14 @@ class ActivityController extends Controller
         ]);
         return response()->json(['success' => true]);
     }
+
+    public function deleteActivity(Request $request){
+        $activityId = $request->get('activityId');
+        $activity = CategoryActivity::find($activityId);
+        if (empty($activity)){
+            return response()->json(['success' => false, 'message' => 'No such activity']);
+        }
+        CategoryActivity::where('id', $activityId)->delete();
+        return response()->json(['success' => true]);
+    }
 }
