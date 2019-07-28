@@ -13,11 +13,11 @@ const routes = [
     component: Home,
     name: 'Home',
   },
-  {
-    path: '/registration',
-    component: Registration,
-    name: 'Registration',
-  },
+  // {
+  //   path: '/registration',
+  //   component: Registration,
+  //   name: 'Registration',
+  // },
   {
     path: '/my-account',
     component: MyAccount,

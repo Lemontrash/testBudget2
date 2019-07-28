@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/getAllCategories', 'CategoryController@getAllCategories');
+
+Route::post('/getAllActivities', 'ActivityController@getAllActivities');
+Route::post('/addActivity', 'ActivityController@addActivity');
+
+Route::post('/getSummaryForLastMonth', 'SummaryController@getSummaryForLastMonth');
+Route::post('/getSummaryForLastYear', 'SummaryController@addActivity')->middleware('auth:api');
+Route::post('/getSummaryForSetAmountOfDays', 'SummaryController@getSummaryForSetAmountOfDays');

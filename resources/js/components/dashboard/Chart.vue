@@ -12,9 +12,9 @@
 export default {
   data() {
     return {
-      series: [44, 55, 13, 43, 22],
+      series: [],
       chartOptions: {
-        labels: ['Transport', 'Medicine', 'Culture', 'Food', 'Girls'],
+        labels: [],
         responsive: [{
           breakpoint: 480,
           options: {
@@ -26,30 +26,42 @@ export default {
             }
           }
         }],
-        colors: ['#fc00ff', '#ee9ca7', '#525252', '#F1F2B5','#D1913C','#7b4397','#136a8a'],
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            type: "horizontal",
-            // shadeIntensity: 1,
-            gradientToColors: ['#00dbde','#ffdde1','#3d72b4','#135058','#FFD194','#dc2430','#267871'], // optional, if not defined - uses the shades of same color in series
-            // inverseColors: true,
-            // opacityFrom: 1,
-            opacityTo: 1,
-            // stops: [0, 50, 100],
-            // colorStops: []
-          }
-        },
+        colors: ['#1240AB', '#3914AF', '#009999', '#FFAA00','#2A4480','#412C84','#1D7373'],
+        // fill: {
+        //   type: 'gradient',
+        //   gradient: {
+        //     shade: 'dark',
+        //     type: "horizontal",
+        //     gradientToColors: ['#00dbde','#ffdde1','#3d72b4','#135058','#FFD194','#dc2430','#267871'],
+        //     opacityTo: 1,
+        //   }
+        // },
       },
 
     }
   },
   created() {
-    // TODO: Get chart data
+    this.getChartData();
+    this.$root.$on('reRenderDashboard',() => {
+      this.getChartData();
+    });
+
+  },
+  methods : {
+    getChartData() {
+      axios
+        .post('/api/getSummaryForLastMonth')
+          .then(res => {
+            this.chartOptions.labels = Object.keys(res.data);
+            this.series  = Object.values(res.data);
+          });
+    }
   }
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss">
+.apexcharts-canvas {
+  margin:0 auto;
+}
 </style>

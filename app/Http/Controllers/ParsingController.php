@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use Illuminate\Http\Request;
 
 class ParsingController extends Controller
@@ -54,8 +55,8 @@ class ParsingController extends Controller
     public static function parseActivities($items){
         foreach ($items as $key => $item) {
             $data[$key]['id']               = $item->id;
-            $data[$key]['categoryId']       = $item->categoryId;
-            $data[$key]['activityName']     = $item->activityName;
+            $data[$key]['category_id']      = Category::find($item->category_id)->name;
+            $data[$key]['activity_name']    = $item->activity_name;
             $data[$key]['userId']           = $item->userId;
             $data[$key]['amount_of_money']  = $item->amount_of_money;
             $data[$key]['currency']         = $item->currency;

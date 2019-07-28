@@ -8,9 +8,9 @@
 
       <nav class="main-menu">
       <router-link :to="'/'">Home</router-link>
-      <router-link :to="'/'">EXAMPLE</router-link>
-      <router-link :to="'/'">EXAMPLE</router-link>
-      <router-link :to="'/'">EXAMPLE</router-link>
+      <router-link :to="'/'">Example</router-link>
+      <router-link :to="'/'">Example</router-link>
+      <router-link :to="'/'">Example</router-link>
 
       </nav>
 
@@ -42,23 +42,24 @@ export default {
   },
   created() {
     // let user_token = this.$cookies.get('token');
-    if(this.$cookies.get('token')) {
+    // if(this.$cookies.get('token')) {
       axios
         .get('/api/user', {
-          headers : {
-            Accept : 'application/json',
-            Authorization : 'Bearer '+this.$cookies.get('token'),
-          }
+          // headers : {
+          //   Accept : 'application/json',
+          //   Authorization : 'Bearer '+this.$cookies.get('token'),
+          // }
         })
           .then(res=>{
             if(res.data.id) {
+              // console.log(res);
               this.currentUser = true;
             }
           })
           .catch(err=>{
             console.log(err);
           });
-    }
+    // }
     // this.getAllCategories();
   },
   methods : {
@@ -74,7 +75,7 @@ export default {
           }
         })
           .then(res => {
-            console.log(res);
+            // console.log(res);
             if(res.data.success) {
               this.$cookies.remove('token');
               document.location.reload(true);

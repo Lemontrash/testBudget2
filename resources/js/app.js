@@ -13,21 +13,29 @@ import VueRouter from 'vue-router'
 import router from './router.js'
 import VueApexCharts from 'vue-apexcharts'
 import VueCookies from 'vue-cookies'
+import moment from 'moment'
 
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue').default
-);
+// Vue.component(
+//     'passport-clients',
+//     require('./components/passport/Clients.vue').default
+// );
+//
+// Vue.component(
+//     'passport-authorized-clients',
+//     require('./components/passport/AuthorizedClients.vue').default
+// );
+//
+// Vue.component(
+//     'passport-personal-access-tokens',
+//     require('./components/passport/PersonalAccessTokens.vue').default
+// );
 
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue').default
-);
-
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue').default
-);
+moment.locale('en');
+Vue.filter('formatDate', function (value) {
+  if (value) {
+    return moment(value).fromNow();
+  }
+})
 //mixins
 require('./mixins.js');
 // TODO: import VueModal from 'vue-js-modal'

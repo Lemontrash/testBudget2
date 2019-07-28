@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\CategoryActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,11 +13,13 @@ class ActivityController extends Controller
     private $currencies = ['USD', 'EUR', 'GBP', 'UAH', 'RUB'];
 
     public function getAllActivities(){
-        $activities = CategoryActivity::where('userId', Auth::id())->get();
+        $activities = CategoryActivity::where('userId', 2)->orderBy('id', 'desc')->get();
+
         if ($activities->isEmpty()){
             return response()->json(['success' => false, 'No activities']);
         }
         $activities = ParsingController::parseActivities($activities);
+        // dd($activities);
         return response()->json($activities);
     }
 
@@ -24,7 +27,7 @@ class ActivityController extends Controller
     public function addActivity(Request $request){
 
         $categoryId = $request->get('categoryId');
-        dd(Auth::id());
+        // dd(Auth::id());
         $name = $request->get('name');
         $money = $request->get('money');
         $currency = $request->get('currency');
@@ -36,7 +39,7 @@ class ActivityController extends Controller
             'activity_name' => $name,
             'amount_of_money' => $money,
             'currency' => $currency,
-            'userId' => Auth::id()
+            'userId' => 2
         ]);
         return response()->json(['success' => true]);
     }

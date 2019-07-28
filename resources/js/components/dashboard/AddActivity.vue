@@ -5,14 +5,11 @@
       <input class="activity-name" type="text" v-model="activityName" placeholder="Activity name">
       <input class="activity-amount" type="number" v-model="activityAmount" placeholder="Activity amount">
       <ul class="categories">
-        <li v-for="i in 20" class="category" @click="selectCategory($event,1)" :cat-id="1">
-          <i class="fas fa-car"></i>
-          <span>Transport</span>
+        <li v-for="category in categories" class="category" @click="selectCategory($event,category.id)" :cat-id="category.id">
+          <i :class="category.icon"></i>
+          <span>{{category.name}}</span>
         </li>
-        <li class="category" @click="selectCategory($event,2)" :cat-id="2">
-          <i class="fas fa-pills"></i>
-          <span>Medicine</span>
-        </li>
+
       </ul>
 
       <button class="btn" @click="saveActivity">Save</button>
@@ -36,23 +33,16 @@ export default {
     // let user_token = this.$cookies.get('token');
     // if(user_token) {
       // console.log(user_token);
-      axios.post('/api/getAllCategories',{
-        headers : {
-          Accept : 'application/json',
-          Authorization : 'Bearer '+this.$cookies.get('token'),
-        }
-      })
+      axios.post('/api/getAllCategories')
         .then(res=>{
-          console.log(res);
-
+          // console.log(res);
+          this.categories = res.data.value;
         })
     // }
 
   },
   methods : {
     selectCategory(e,catId) {
-      console.log(catId);
-      console.log(e.target);
 
       //add selected class
       let categories = document.getElementsByClassName('category');
@@ -66,17 +56,13 @@ export default {
     saveActivity() {
       if(this.activityName != null && this.activityAmount != null && this.selectedCategoryId != null) {
         axios.post('/api/addActivity',{
-          headers : {
-            Accept : 'application/json',
-            Authorization : 'Bearer '+this.$cookies.get('token'),
-          },
           categoryId : this.selectedCategoryId,
           money : this.activityAmount,
           currency : 'USD',
           name : this.activityName
         })
           .then(res=>{
-            console.log(res);
+            this.$root.$emit('reRenderDashboard');
           })
       }
     },
@@ -141,6 +127,7 @@ export default {
       }
       li.category {
         flex-basis: 20%;
+        width:20%;
         padding:12px;
         display: flex;
         flex-direction: column;
@@ -148,18 +135,35 @@ export default {
         justify-content: center;
         color:#333;
         height:100px;
+        flex-grow: 2;
         cursor : pointer;
         i {
-          font-size: 24px;
+          font-size: 32px;
           pointer-events: none;
         }
         span {
           font-size: 18px;
           pointer-events: none;
+          line-height: 18px;
+          text-align: center;
+          display: block;
+          margin-top: 8px;
         }
         &:hover,&.selected {
           background-color: cornflowerblue;
           color:#fff;
+        }
+      }
+    }
+  }
+}
+@media (max-width:900px) {
+  .add-activity {
+    .activity-input {
+      .categories {
+        li.category {
+          flex-basis:33%;
+          width:33%;
         }
       }
     }
