@@ -14,7 +14,8 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Here must be landing page!
+                    <a href="/dashboard">Link to dashboard</a>
                 </div>
             </div>
         </div>
