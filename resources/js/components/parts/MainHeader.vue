@@ -19,7 +19,7 @@
         <a class="btn" v-if="currentUser == false" href="/login">Login</a>
 
         <router-link class="btn inverted" v-if="currentUser == true" :to="'/my-account'">My Account</router-link>
-        <button class="btn" v-if="currentUser == true" @click="logout">Logout</button>
+        <a class="btn" href="/logout" v-if="currentUser == true" >Logout</a>
       </div>
 
       <button class="mobile-menu-trigger" @click="openMobileMenu($event)"><i class="far fa-bars"></i></button>
@@ -60,7 +60,8 @@ export default {
         .get('/logout')
           .then(res => {
             if(res.data.success) {
-              this.$cookies.remove('token');
+              console.log(res);
+              // this.$cookies.remove('token');
               document.location.reload(true);
             }
           })

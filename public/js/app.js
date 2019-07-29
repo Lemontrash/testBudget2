@@ -31448,11 +31448,9 @@ __webpack_require__.r(__webpack_exports__);
       document.querySelector('.header').classList.toggle('is_active');
     },
     logout: function logout() {
-      var _this2 = this;
-
       axios.get('/logout').then(function (res) {
         if (res.data.success) {
-          _this2.$cookies.remove('token');
+          console.log(res); // this.$cookies.remove('token');
 
           document.location.reload(true);
         }
@@ -87461,11 +87459,9 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _vm.currentUser == true
-                ? _c(
-                    "button",
-                    { staticClass: "btn", on: { click: _vm.logout } },
-                    [_vm._v("Logout")]
-                  )
+                ? _c("a", { staticClass: "btn", attrs: { href: "/logout" } }, [
+                    _vm._v("Logout")
+                  ])
                 : _vm._e()
             ],
             1
